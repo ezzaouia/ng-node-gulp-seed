@@ -26,12 +26,31 @@ let opts = _.extendOwn({}, watchify.args, customOpts)
 let __bundler = browserify(customOpts)
 let __bundlerWatcher = watchify(browserify(opts))
 
-// make this exports available inside the project
+// A bit of exports
 exports.__bundler = __bundler
 exports.__bundlerWatcher = __bundlerWatcher
 
 exports.bundler = function () {
   return __bundler.transform('babelify', {
+      presets: ['es2015']
+    })
+    .bundle()
+    .on('error', function (err) {
+      utils.errorHandler('bunbler')(err)
+    })
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest(utils.paths.tmp))
+    .pipe(buffer())
+    .pipe(gsourcemaps.init({
+      loadMaps: true
+    }))
+    .pipe(guglify())
+    .pipe(gsourcemaps.write('./'))
+    .pipe(gulp.dest(utils.paths.dist))
+}
+
+exports.bundlerWatcher = function () {
+  return __bundlerWatcher.transform('babelify', {
       presets: ['es2015']
     })
     .bundle()
