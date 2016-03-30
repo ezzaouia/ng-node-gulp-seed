@@ -27,6 +27,6 @@ glob.sync('./app/components/**/*.directives.js').forEach(function (file) {
   })
 })
 
-let app = angular.module(utils.constants.appname)
+let app = angular.module(utils.constants.appname, [utils.constants.appnamecomp])
 
 app.config(function () {})
