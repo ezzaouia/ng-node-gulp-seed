@@ -23,5 +23,8 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
     "wrench": "^1.5.8"
+  },
+  "dependencies": {
+    "browser-sync": "^2.11.2"
   }
 }

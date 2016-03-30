@@ -14,6 +14,9 @@ const
   source = require('vinyl-source-stream'),
   buffer = require('vinyl-buffer'),
 
+  browserSync = require('browser-sync').create(),
+  reload = browserSync.reload,
+
   _ = require('underscore')
 
 let customOpts = {
@@ -27,8 +30,11 @@ let __bundler = browserify(customOpts)
 let __bundlerWatcher = watchify(browserify(opts))
 
 // A bit of exports
+// ----------------
 exports.__bundler = __bundler
 exports.__bundlerWatcher = __bundlerWatcher
+exports.browserSync = browserSync
+exports.reload = reload
 
 exports.bundler = function () {
   return __bundler.transform('babelify', {
@@ -66,4 +72,5 @@ exports.bundlerWatcher = function () {
     .pipe(guglify())
     .pipe(gsourcemaps.write('./'))
     .pipe(gulp.dest(utils.paths.dist))
+    .pipe(browserSync.stream())
 }
