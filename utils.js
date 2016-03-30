@@ -12,6 +12,10 @@ exports.paths = {
   backend: 'backend'
 }
 
+exports.constants = {
+  appname: 'ngNodeGulpSeed',
+  appnamecomp: 'ngNodeGulpSeedComp'
+}
 
 exports.errorHandler = function (title) {
   return function (err) {
